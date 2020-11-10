@@ -7,13 +7,13 @@ import org.sql2o.Sql2o;
 
 @Configuration
 public class DatabaseContext {
-    @Value("${database.url")
+    @Value("${database.url}")
     private String dbUrl;
 
-    @Value("${database.user")
+    @Value("${database.user}")
     private String dbUser;
 
-    @Value("${database.password")
+    @Value("${database.password}")
     private String dbPass;
 
     @Bean
