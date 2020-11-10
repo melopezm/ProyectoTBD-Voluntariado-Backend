@@ -18,6 +18,6 @@ public class DatabaseContext {
 
     @Bean
     public Sql2o sql2o(){
-        return new Sql2o(dbUrl, dbUser, dbPass);
+        return new Sql2o(dbUrl,dbUser,dbPass);
     }
 }
