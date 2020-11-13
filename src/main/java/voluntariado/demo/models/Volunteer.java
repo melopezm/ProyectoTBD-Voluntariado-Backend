@@ -1,10 +1,8 @@
 package voluntariado.demo.models;
 
 
-import org.sql2o.converters.IntegerConverter;
-import org.sql2o.converters.NumberConverter;
-
 import java.sql.Date;
+
 
 public class Volunteer {
 

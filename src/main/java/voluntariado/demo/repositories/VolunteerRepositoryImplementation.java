@@ -1,15 +1,13 @@
 package voluntariado.demo.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-import org.sql2o.converters.IntegerConverter;
 import voluntariado.demo.models.Volunteer;
 
+import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class VolunteerRepositoryImplementation implements VolunteerRepository {
@@ -42,6 +40,60 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
             System.out.println( e.getMessage() );
             return null;
         }
+    }
+
+    @Override
+    public void deleteVolunteerById(Integer id) {
+        final String sql = "DELETE FROM voluntario WHERE id = :id";
+        try (Connection conn = sql2o.open()){
+            conn.createQuery(sql).addParameter("id",id).executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Override
+    public Volunteer updateVolunteerById(Integer id, Volunteer volunteer) {
+        System.out.println(volunteer.getFnacimiento());
+        final String sql = "UPDATE voluntario SET nombre = :nombre,fnacimiento = :fnacimiento,correo_electronico = :ce, celular = :celu WHERE id = :id ";
+        try (Connection conn = sql2o.open()){
+            conn.createQuery(sql,true)
+                    .addParameter("nombre",volunteer.getNombre())
+                    .addParameter("fnacimiento",volunteer.getFnacimiento())
+                    .addParameter("ce",volunteer.getCorreo_electronico())
+                    .addParameter("celu",volunteer.getCelular())
+                    .addParameter("id",id)
+                    .executeUpdate();
+            volunteer.setId(id);
+            return volunteer;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Volunteer createVolunteer(Volunteer volunteer) {
+        int idMax = 0;
+        try(Connection conn =sql2o.open()){
+            idMax = conn.createQuery("SELECT MAX(id) FROM voluntario").executeScalar(Integer.class)+1;
+            conn.createQuery("INSERT INTO voluntario(id,nombre,fnacimiento,correo_electronico,celular) " +
+                    "VALUES (:id,:nombre,:fnacimiento,:co,:celular)")
+                    .addParameter("id",idMax)
+                    .addParameter("nombre",volunteer.getNombre())
+                    .addParameter("fnacimiento",volunteer.getFnacimiento())
+                    .addParameter("co",volunteer.getCorreo_electronico())
+                    .addParameter("celular",volunteer.getCelular()).executeUpdate();
+            volunteer.setId(idMax);
+            return volunteer;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 
 }
