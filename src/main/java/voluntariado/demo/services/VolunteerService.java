@@ -1,9 +1,10 @@
 package voluntariado.demo.services;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import voluntariado.demo.models.Volunteer;
 import voluntariado.demo.repositories.VolunteerRepository;
+import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -14,9 +15,15 @@ public class VolunteerService {
         this.volunteerRepository = volunteerRepository;
     }
 
-    @GetMapping("/volunteer/count")
-    public String countVolunteer(){
-        int total = volunteerRepository.countVolunteer();
-        return String.format("La cantidad de voluntarios es: %s",total);
+    @GetMapping("/volunteers")
+    public List<Volunteer> getAllVolunteer(){
+
+        return volunteerRepository.getAllVolunteer();
     }
+
+    @GetMapping("/volunteers/{id}")
+    public Volunteer getVolunteerById(@PathVariable("id") Integer id){
+        return volunteerRepository.getVolunteerById(id);
+    }
+
 }

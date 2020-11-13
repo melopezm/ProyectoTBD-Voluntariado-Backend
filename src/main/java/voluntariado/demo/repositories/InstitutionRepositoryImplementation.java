@@ -17,7 +17,7 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
     @Override
     public int countInstitution()
     {
-        try ( Coonection conn = sql2o.open() )
+        try ( Connection conn = sql2o.open() )
         {
             return conn.createQuery( "SELECT COUNT(*) FROM institucion" ).executeScalar( Integer.class );
         }
@@ -39,7 +39,7 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
 
         catch (Exception e)
         {
-            System.out.println( e.Message() );
+            System.out.println( e.getMessage() );
             return null;
         }
     }
