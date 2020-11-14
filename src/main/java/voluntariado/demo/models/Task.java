@@ -6,12 +6,21 @@ public class Task {
 
     private Integer id;
     private String nombre;
+    private String descrip;
     private Integer cant_vol_requeridos;
     private Integer cant_vol_inscritos;
     private Integer id_emergencia;
     private Date finicio;
     private Date ffin;
     private Integer id_estado;
+
+    public String getDescrip() {
+        return descrip;
+    }
+
+    public void setDescrip(String descrip) {
+        this.descrip = descrip;
+    }
 
     public Integer getId() {
         return id;
