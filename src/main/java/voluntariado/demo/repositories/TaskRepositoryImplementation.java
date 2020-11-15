@@ -71,7 +71,29 @@ public class TaskRepositoryImplementation implements TaskRepository {
 
     @Override
     public Task updateTaskById(Integer id,Task task) {
-        return null;
+        final String sql = "UPDATE tarea SET nombre = :n," +
+                "descrip = :d, cant_vol_requeridos = :car, " +
+                "cant_vol_inscritos =:cai, id_emergencia = :ie," +
+                "finicio = :fi, ffin = :ff,id_estado = :ide WHERE id = :id";
+        try(Connection conn = sql2o.open()){
+            conn.createQuery(sql)
+                    .addParameter("n",task.getNombre())
+                    .addParameter("d",task.getDescrip())
+                    .addParameter("car",task.getCant_vol_requeridos())
+                    .addParameter("cai",task.getCant_vol_inscritos())
+                    .addParameter("ie",task.getId_emergencia())
+                    .addParameter("fi",task.getFfin())
+                    .addParameter("ff",task.getFfin())
+                    .addParameter("ide",task.getId_estado())
+                    .addParameter("id",id)
+                    .executeUpdate();
+            task.setId(id);
+            return task;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     @Override
