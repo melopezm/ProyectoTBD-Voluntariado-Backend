@@ -1,7 +1,8 @@
 package voluntariado.demo.services;
 
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import voluntariado.demo.models.Volunteer;
 import voluntariado.demo.models.VolunteerAbility;
 import voluntariado.demo.repositories.VolunteerAbilityRepository;
 
@@ -29,6 +30,13 @@ public class VolunteerAbilityService {
         return volunteerAbilityRepository.getVolunteerAbilityById(id);
     }
 
+    @PutMapping("/volunteerAbility/{id}")
+    public VolunteerAbility updateVolunteerAbilityById(@PathVariable("id") Integer id,@RequestBody @Validated @NonNull VolunteerAbility volunteerAbility){
+        return volunteerAbilityRepository.updateVolunteerAbilityById(id,volunteerAbility);
+    }
 
-
+    @DeleteMapping("/volunteerAbility/{id}")
+    public void  deleteVolunteerAbilityById(@PathVariable("id") Integer id){
+        volunteerAbilityRepository.deleteVolunteerAbilityById(id);
+    }
 }
