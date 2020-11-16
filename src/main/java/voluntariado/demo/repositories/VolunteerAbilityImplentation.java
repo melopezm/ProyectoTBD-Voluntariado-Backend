@@ -53,6 +53,24 @@ public class VolunteerAbilityImplentation implements VolunteerAbilityRepository 
         }
     }
 
+    @Override
+    public VolunteerAbility updateVolunteerAbilityById(Integer id, VolunteerAbility volunteerAbility) {
+        final String sql = "UPDATE volunteerAbility SET id_voluntario = :id_voluntario,id_habilidad = :id_habilidad WHERE id = :id ";
+        try (Connection conn = sql2o.open()){
+            conn.createQuery(sql,true)
+                    .addParameter("id_voluntario",volunteerAbility.getId_voluntario())
+                    .addParameter("id_habilidad",volunteerAbility.getId_habilidad())
+                    .addParameter("id",id).executeUpdate();
+            volunteerAbility.setId(id);
+            return volunteerAbility;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+
 
 
 

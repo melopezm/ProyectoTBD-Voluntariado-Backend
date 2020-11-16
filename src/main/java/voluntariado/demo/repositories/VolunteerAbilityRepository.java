@@ -8,4 +8,5 @@ public interface VolunteerAbilityRepository {
     public List<VolunteerAbility> getAllVolunteerAbility();
     public VolunteerAbility getVolunteerAbilityById(Integer id);
     public void deleteVolunteerAbilityById(Integer id);
+    public VolunteerAbility updateVolunteerAbilityById(Integer id, VolunteerAbility volunteerAbility);
 }
