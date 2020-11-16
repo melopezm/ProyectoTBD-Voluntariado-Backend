@@ -7,10 +7,28 @@ import java.sql.Date;
 public class Volunteer {
 
     private Integer id;
+    private String rut;
     private String nombre;
-    private Date fnacimiento;
+    private String apellido;
     private String correo_electronico;
     private String celular;
+    private Date fnacimiento;
+
+    public String getRut() {
+        return rut;
+    }
+
+    public void setRut(String rut) {
+        this.rut = rut;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
     public Integer getId() {
         return id;
