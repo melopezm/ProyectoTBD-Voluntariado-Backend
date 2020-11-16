@@ -7,4 +7,5 @@ import java.util.List;
 public interface VolunteerAbilityRepository {
     public List<VolunteerAbility> getAllVolunteerAbility();
     public VolunteerAbility getVolunteerAbilityById(Integer id);
+    public void deleteVolunteerAbilityById(Integer id);
 }

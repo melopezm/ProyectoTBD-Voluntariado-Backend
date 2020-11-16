@@ -42,6 +42,17 @@ public class VolunteerAbilityImplentation implements VolunteerAbilityRepository 
         }
     }
 
+    @Override
+    public void deleteVolunteerAbilityById(Integer id) {
+        final String sql = "DELETE FROM volunteerAbility WHERE id = :id";
+        try (Connection conn = sql2o.open()){
+            conn.createQuery(sql).addParameter("id",id).executeUpdate();
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 
 
