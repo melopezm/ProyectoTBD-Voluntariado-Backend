@@ -70,15 +70,23 @@ public class VolunteerAbilityImplentation implements VolunteerAbilityRepository 
         }
     }
 
-
-
-
-
-
-
-
-
-
+    @Override
+    public VolunteerAbility createVolunteerAbility(VolunteerAbility volunteerAbility) {
+        int idMax = 0;
+        try(Connection conn =sql2o.open()){
+            idMax = conn.createQuery("SELECT MAX(id) FROM taskAbility").executeScalar(Integer.class)+1;
+            conn.createQuery("INSERT INTO volunteerAbility(id,id_voluntario,id_habilidad) " + "VALUES (:id,:id_voluntario,:id_habilidad)")
+                    .addParameter("id",idMax)
+                    .addParameter("id_voluntario",volunteerAbility.getId_voluntario())
+                    .addParameter("id_habilidad",volunteerAbility.getId_habilidad()).executeUpdate();
+            volunteerAbility.setId(idMax);
+            return volunteerAbility;
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 
 }
 
