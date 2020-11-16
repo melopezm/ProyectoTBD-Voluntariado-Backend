@@ -33,11 +33,10 @@ public class AbilityRepositoryImplementation implements AbilityRepository
     @Override
     public Ability getAbilityById( Integer id )
     {
-        final String sql = "SELECT * FROM habilidad WHERE id = :id";
         try( Connection con = sql2o.open() )
         {
-            Ability ability = con.createQuery( sql ).addParameter( "id", id ).executeAndFetchFirst(Ability.class);
-            return ability;
+            return con.createQuery( "SELECT * FROM habilidad WHERE id = :id" ).addParameter( "id", id )
+                    .executeAndFetchFirst(Ability.class).get(0);
         }
         catch ( Exception e )
         {
