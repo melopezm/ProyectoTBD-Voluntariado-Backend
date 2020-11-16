@@ -56,13 +56,15 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
     @Override
     public Volunteer updateVolunteerById(Integer id, Volunteer volunteer) {
         System.out.println(volunteer.getFnacimiento());
-        final String sql = "UPDATE voluntario SET nombre = :nombre,fnacimiento = :fnacimiento,correo_electronico = :ce, celular = :celu WHERE id = :id ";
+        final String sql = "UPDATE voluntario SET rut= :rut, nombre = :nombre,apellido = :ape,fnacimiento = :fnacimiento,correo_electronico = :ce, celular = :celu WHERE id = :id ";
         try (Connection conn = sql2o.open()){
             conn.createQuery(sql,true)
+                    .addParameter("rut",volunteer.getRut())
                     .addParameter("nombre",volunteer.getNombre())
-                    .addParameter("fnacimiento",volunteer.getFnacimiento())
+                    .addParameter("ape",volunteer.getApellido())
                     .addParameter("ce",volunteer.getCorreo_electronico())
                     .addParameter("celu",volunteer.getCelular())
+                    .addParameter("fnacimiento",volunteer.getFnacimiento())
                     .addParameter("id",id)
                     .executeUpdate();
             volunteer.setId(id);
@@ -79,13 +81,16 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
         int idMax = 0;
         try(Connection conn =sql2o.open()){
             idMax = conn.createQuery("SELECT MAX(id) FROM voluntario").executeScalar(Integer.class)+1;
-            conn.createQuery("INSERT INTO voluntario(id,nombre,fnacimiento,correo_electronico,celular) " +
-                    "VALUES (:id,:nombre,:fnacimiento,:co,:celular)")
+            conn.createQuery("INSERT INTO voluntario(id,rut,nombre,apellido,correo_electronico,celular,fnacimiento) " +
+                    "VALUES (:id,:rut,:nombre,:ape,:co,:celular,:fnacimiento)")
                     .addParameter("id",idMax)
+                    .addParameter("rut",volunteer.getRut())
                     .addParameter("nombre",volunteer.getNombre())
-                    .addParameter("fnacimiento",volunteer.getFnacimiento())
+                    .addParameter("ape",volunteer.getApellido())
                     .addParameter("co",volunteer.getCorreo_electronico())
-                    .addParameter("celular",volunteer.getCelular()).executeUpdate();
+                    .addParameter("celular",volunteer.getCelular())
+                    .addParameter("fnacimiento",volunteer.getFnacimiento())
+                    .executeUpdate();
             volunteer.setId(idMax);
             return volunteer;
         }
