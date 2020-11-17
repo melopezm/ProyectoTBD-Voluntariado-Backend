@@ -33,11 +33,11 @@ public class AbilityRepositoryImplementation implements AbilityRepository
     @Override
     public Ability getAbilityById( Integer id )
     {
-        final String sql = "SELECT * FROM habilidad WHERE id = :id";
         try( Connection con = sql2o.open() )
         {
-            Ability ability = con.createQuery( sql ).addParameter( "id", id ).executeAndFetchFirst(Ability.class);
-            return ability;
+            return con.createQuery( "SELECT * FROM habilidad WHERE id = :id" ).addParameter( "id", id )
+                    .executeAndFetchFirst(Ability.class);
+
         }
         catch ( Exception e )
         {
@@ -85,13 +85,13 @@ public class AbilityRepositoryImplementation implements AbilityRepository
         int idMax = 0;
         try ( Connection conn = sql2o.open() )
         {
-            idMax = conn.createQuery( "SELECT MAX(id) FROM habilidad" ).executeScalar( Intere.class ) + 1;
+            idMax = conn.createQuery( "SELECT MAX(id) FROM habilidad" ).executeScalar( Integer.class ) + 1;
             conn.createQuery( "INSERT INTO habilidad(id,descrip) " + "VALUES (:id,:descrip)")
                     .addParameter( "id", idMax )
                     .addParameter( "descrip", ability.getDescrip() )
                     .executeUpdate();
             ability.setId( idMax );
-            return ability
+            return ability;
         }
         catch ( Exception e )
         {
