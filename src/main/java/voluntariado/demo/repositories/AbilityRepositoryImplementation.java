@@ -36,7 +36,8 @@ public class AbilityRepositoryImplementation implements AbilityRepository
         try( Connection con = sql2o.open() )
         {
             return con.createQuery( "SELECT * FROM habilidad WHERE id = :id" ).addParameter( "id", id )
-                    .executeAndFetchFirst(Ability.class).get(0);
+                    .executeAndFetchFirst(Ability.class);
+
         }
         catch ( Exception e )
         {
@@ -84,13 +85,13 @@ public class AbilityRepositoryImplementation implements AbilityRepository
         int idMax = 0;
         try ( Connection conn = sql2o.open() )
         {
-            idMax = conn.createQuery( "SELECT MAX(id) FROM habilidad" ).executeScalar( Intere.class ) + 1;
+            idMax = conn.createQuery( "SELECT MAX(id) FROM habilidad" ).executeScalar( Integer.class ) + 1;
             conn.createQuery( "INSERT INTO habilidad(id,descrip) " + "VALUES (:id,:descrip)")
                     .addParameter( "id", idMax )
                     .addParameter( "descrip", ability.getDescrip() )
                     .executeUpdate();
             ability.setId( idMax );
-            return ability
+            return ability;
         }
         catch ( Exception e )
         {
