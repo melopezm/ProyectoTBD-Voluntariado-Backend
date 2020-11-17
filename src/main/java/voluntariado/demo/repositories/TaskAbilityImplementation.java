@@ -55,11 +55,11 @@ public class TaskAbilityImplementation implements TaskAbilityRepository {
 
     @Override
     public TaskAbility updateTaskAbilityById(Integer id, TaskAbility taskAbility) {
-        final String sql = "UPDATE tarea_habilidad SET id_emehab = :id_emehab,id_habilidad = :id_habilidad WHERE id = :id ";
+        final String sql = "UPDATE tarea_habilidad SET id_emehab = :id_emehab,id_tarea = :id_tarea WHERE id = :id ";
         try (Connection conn = sql2o.open()){
             conn.createQuery(sql,true)
                     .addParameter("id_emehab",taskAbility.getId_emehab())
-                    .addParameter("id_habilidad",taskAbility.getId_habilidad())
+                    .addParameter("id_tarea",taskAbility.getId_tarea())
                     .addParameter("id",id)
                     .executeUpdate();
             taskAbility.setId(id);
@@ -76,10 +76,10 @@ public class TaskAbilityImplementation implements TaskAbilityRepository {
         int idMax = 0;
         try(Connection conn =sql2o.open()){
             idMax = conn.createQuery("SELECT MAX(id) FROM tarea_habilidad").executeScalar(Integer.class)+1;
-            conn.createQuery("INSERT INTO tarea_habilidad(id,id_emehab,id_habilidad) " + "VALUES (:id,:id_emehab,:id_habilidad)")
+            conn.createQuery("INSERT INTO tarea_habilidad(id,id_emehab,id_tarea) " + "VALUES (:id,:id_emehab,:id_tarea)")
                     .addParameter("id",idMax)
                     .addParameter("id_emehab",taskAbility.getId_emehab())
-                    .addParameter("id_habilidad",taskAbility.getId_habilidad())
+                    .addParameter("id_tarea",taskAbility.getId_tarea())
                     .executeUpdate();
             taskAbility.setId(idMax);
             return taskAbility;
