@@ -10,6 +10,4 @@ public interface EmergencyRepository {
     public void deleteEmergencyById(Integer id);
     public Emergency getEmergencyById(Integer id);
     public Emergency updateEmergencyById(Integer id, Emergency emergency);
-
-
 }
