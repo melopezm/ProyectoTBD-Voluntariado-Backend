@@ -8,7 +8,7 @@ import voluntariado.demo.models.Emergency;
 import java.util.List;
 
 @Repository
-public class EmergencyImplementation implements EmergencyRepository{
+public class EmergencyRepositoryImplementation implements EmergencyRepository{
 
     @Autowired
     private Sql2o sql2o;
