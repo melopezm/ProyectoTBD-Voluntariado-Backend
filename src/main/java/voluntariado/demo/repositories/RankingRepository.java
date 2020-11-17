@@ -7,10 +7,7 @@ import java.util.List;
 public interface RankingRepository {
     public List<Ranking> getAllRanking();
     public Ranking createRanking(Ranking ranking);
-
-    void deleteRankingById(Integer id);
-
-    Ranking getRankingById(Integer id);
-
-    Ranking updateRankingById(Integer id, Ranking ranking);
+    public void deleteRankingById(Integer id);
+    public Ranking getRankingById(Integer id);
+    public Ranking updateRankingById(Integer id, Ranking ranking);
 }

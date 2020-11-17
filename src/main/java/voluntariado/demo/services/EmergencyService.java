@@ -39,7 +39,7 @@ public class EmergencyService {
     }
 
     @DeleteMapping("/emergency/{id}")
-    public void  deleteTaskAbilityById(@PathVariable("id") Integer id){
+    public void  deleteEmergencyById(@PathVariable("id") Integer id){
         emergencyRepository.deleteEmergencyById(id);
     }
 }
