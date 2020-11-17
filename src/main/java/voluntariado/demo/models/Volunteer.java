@@ -2,6 +2,7 @@ package voluntariado.demo.models;
 
 
 import java.sql.Date;
+import java.util.List;
 
 
 public class Volunteer {
@@ -13,6 +14,15 @@ public class Volunteer {
     private String correo_electronico;
     private String celular;
     private Date fnacimiento;
+    private List<Integer> habilidad;
+
+    public List<Integer> getHabilidad() {
+        return habilidad;
+    }
+
+    public void setHabilidad(List<Integer> habilidad) {
+        this.habilidad = habilidad;
+    }
 
     public String getRut() {
         return rut;
