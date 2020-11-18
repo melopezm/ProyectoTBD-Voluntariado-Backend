@@ -92,6 +92,16 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
                     .addParameter("fnacimiento",volunteer.getFnacimiento())
                     .executeUpdate();
             volunteer.setId(idMax);
+            for(int i=0;i<volunteer.getHabilidad().size();i++){
+                final String sql1 = "SELECT MAX(id) FROM vol_habilidad";
+                final String sql = "INSERT INTO vol_habilidad(id,id_voluntario,id_habilidad) VALUES(:id,:idv,:idh)";
+                int maxId = conn.createQuery(sql1).executeScalar(Integer.class)+1;
+                conn.createQuery(sql)
+                        .addParameter("id",maxId)
+                        .addParameter("idv",idMax)
+                        .addParameter("idh",volunteer.getHabilidad().get(i))
+                        .executeUpdate();
+            }
             return volunteer;
         }
         catch (Exception e){
