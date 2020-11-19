@@ -1,8 +1,8 @@
 package voluntariado.demo.services;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import voluntariado.demo.repositories.InstitutionRepository;
 import voluntariado.demo.models.Institution;
 
@@ -18,16 +18,35 @@ public class InstitutionService
         this.insRepo = insRepo;
     }
 
-    @GetMapping( "/institution/count" )
-    public String countInstitution()
-    {
-        int count = insRepo.countInstitution();
-        return String.format( "Hay %s instituciones", count );
-    }
-
     @GetMapping( "/institution/all" )
     public List<Institution> getAllInstitution()
     {
         return insRepo.getAllInstitution();
+    }
+
+    @PostMapping( "/institution/add" )
+    @ResponseBody
+    public Institution createInstitution( @RequestBody Institution institution )
+    {
+        return insRepo.createInstitution( institution );
+    }
+
+    @GetMapping( "/institution/{id}" )
+    public Institution getInstitutionById( @PathVariable(value = "id") Integer id )
+    {
+        return insRepo.getInstitution( id );
+    }
+
+    @PutMapping( "/institution/update/{id}" )
+    @ResponseBody
+    public Institution updateInstitutionById( @RequestBody Institution institution, @PathVariable(value = "id") Integer id )
+    {
+        return insRepo.updateInstitutionById( institution, id );
+    }
+
+    @DeleteMapping( "/institution/delete/{id}" )
+    public void deleteInstitution( @PathVariable(value = "id") Integer id )
+    {
+        insRepo.deleteInstitution( id );
     }
 }

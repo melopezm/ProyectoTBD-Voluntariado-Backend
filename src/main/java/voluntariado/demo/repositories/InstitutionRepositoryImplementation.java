@@ -14,20 +14,6 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
     @Autowired
     private Sql2o sql2o;
 
-    @Override
-    public int countInstitution()
-    {
-        try ( Connection conn = sql2o.open() )
-        {
-            return conn.createQuery( "SELECT COUNT(*) FROM institucion" ).executeScalar( Integer.class );
-        }
-
-        catch ( Exception e )
-        {
-            System.out.println( e.getMessage() );
-            return -1;
-        }
-    }
 
     @Override
     public List<Institution> getAllInstitution()
@@ -37,10 +23,81 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
             return conn.createQuery( "SELECT * FROM institucion" ).executeAndFetch( Institution.class );
         }
 
-        catch (Exception e)
+        catch ( Exception e )
         {
             System.out.println( e.getMessage() );
             return null;
         }
     }
+
+    @Override
+    public Institution getInstitutionById( Integer id )
+    {
+        try( Connection con = sql2o.open() )
+        {
+            return con.createQuery( "SELECT * FROM institution WHERE id = :id" )
+                    .addParameter( "id", id )
+                    .executeAndFetchFirst( Institution.class ).get( 0 );
+
+        }
+        catch ( Exception e )
+        {
+            System.out.println( e.getMessage() );
+            return null;
+        }
+    }
+
+    @Override
+    public void deleteInstitutionById( Integer id )
+    {
+        try ( Connection conn = sql2o.open() )
+        {
+            conn.createQuery( "DELETE FROM institution WHERE id = :id" )
+                    .addParameter( "id",id ).executeUpdate();
+        }
+        catch ( Exception e )
+        {
+            System.out.println( e.getMessage() );
+        }
+    }
+
+    @Override
+    public Institution updateInstitutionById( Integer id, Institution institution )
+    {
+        try ( Connection conn = sql2o.open() )
+        {
+            conn.createQuery( "UPDATE institucion SET nombre = :nombre WHERE id = :id" )
+                    .addParameter( "nombre", Institution.getNombre() )
+                    .addParameter( "id", id ).executeUpdate();
+            Institution.setId( id );
+            return institution;
+        }
+        catch ( Exception e )
+        {
+            System.out.println( e.GetMessage() );
+            return null;
+        }
+    }
+
+    @Override
+    public Institution createInstitution( Institution institution )
+    {
+        int idMax = 0;
+        try ( Connection conn = sql2o.open() )
+        {
+            idMax = conn.createQuery( "SELECT MAX(id) FROM institucion" ).executeScalar( Integer.class ) + 1;
+            conn.createQuery( "INSERT INTO institucion(id,nombre) " + "VALUES (:id,:nombre)")
+                    .addParameter( "id", idMax )
+                    .addParameter( "nombre", institution.getNombre() )
+                    .executeUpdate();
+            institution.setId( idMax );
+            return institution;
+        }
+        catch ( Exception e )
+        {
+            System.out.println( e.getMessage() );
+            return null;
+        }
+    }
+
 }
