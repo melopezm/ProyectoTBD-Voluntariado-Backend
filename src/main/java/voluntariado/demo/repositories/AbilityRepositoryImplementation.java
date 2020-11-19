@@ -85,7 +85,7 @@ public class AbilityRepositoryImplementation implements AbilityRepository
         int idMax = 0;
         try ( Connection conn = sql2o.open() )
         {
-            idMax = conn.createQuery( "SELECT MAX(id) FROM habilidad" ).executeScalar( Integer.class ) + 1;
+            idMax = conn.createQuery( "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM habilidad" ).executeScalar( Integer.class ) + 1;
             conn.createQuery( "INSERT INTO habilidad(id,descrip) " + "VALUES (:id,:descrip)")
                     .addParameter( "id", idMax )
                     .addParameter( "descrip", ability.getDescrip() )

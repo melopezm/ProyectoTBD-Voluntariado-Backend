@@ -74,7 +74,7 @@ public class VolunteerAbilityImplentation implements VolunteerAbilityRepository 
     public VolunteerAbility createVolunteerAbility(VolunteerAbility volunteerAbility) {
         int idMax = 0;
         try(Connection conn =sql2o.open()){
-            idMax = conn.createQuery("SELECT MAX(id) FROM vol_habilidad").executeScalar(Integer.class)+1;
+            idMax = conn.createQuery("SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM vol_habilidad").executeScalar(Integer.class)+1;
             conn.createQuery("INSERT INTO vol_habilidad(id,id_voluntario,id_habilidad) " + "VALUES (:id,:id_voluntario,:id_habilidad)")
                     .addParameter("id",idMax)
                     .addParameter("id_voluntario",volunteerAbility.getId_voluntario())

@@ -37,7 +37,7 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
         {
             return con.createQuery( "SELECT * FROM institution WHERE id = :id" )
                     .addParameter( "id", id )
-                    .executeAndFetchFirst( Institution.class ).get( 0 );
+                    .executeAndFetchFirst( Institution.class );
 
         }
         catch ( Exception e )
@@ -67,14 +67,14 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
         try ( Connection conn = sql2o.open() )
         {
             conn.createQuery( "UPDATE institucion SET nombre = :nombre WHERE id = :id" )
-                    .addParameter( "nombre", Institution.getNombre() )
+                    .addParameter( "nombre", institution.getNombre() )
                     .addParameter( "id", id ).executeUpdate();
-            Institution.setId( id );
+            institution.setId( id );
             return institution;
         }
         catch ( Exception e )
         {
-            System.out.println( e.GetMessage() );
+            System.out.println( e.getMessage() );
             return null;
         }
     }
@@ -85,7 +85,7 @@ public class InstitutionRepositoryImplementation implements InstitutionRepositor
         int idMax = 0;
         try ( Connection conn = sql2o.open() )
         {
-            idMax = conn.createQuery( "SELECT MAX(id) FROM institucion" ).executeScalar( Integer.class ) + 1;
+            idMax = conn.createQuery( "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM institucion" ).executeScalar( Integer.class ) + 1;
             conn.createQuery( "INSERT INTO institucion(id,nombre) " + "VALUES (:id,:nombre)")
                     .addParameter( "id", idMax )
                     .addParameter( "nombre", institution.getNombre() )

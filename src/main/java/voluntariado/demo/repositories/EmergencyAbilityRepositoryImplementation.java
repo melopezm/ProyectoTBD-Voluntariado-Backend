@@ -37,7 +37,7 @@ public class EmergencyAbilityRepositoryImplementation implements EmergencyAbilit
 
         try ( Connection conn = sql2o.open() )
         {
-            idMax = conn.createQuery( "SELECT MAX(id) FROM eme_habilidad" ).executeScalar( Integer.class ) + 1;
+            idMax = conn.createQuery( "SELECT CASE WHEN MAX(id) IS NULLL THEN 0 ELSE MAX(id) END FROM eme_habilidad" ).executeScalar( Integer.class ) + 1;
             conn.createQuery( sql )
                     .addParameter( "idEme", emergencyAbility.getId_emergencia() )
                     .addParameter( "idHab", emergencyAbility.getId_habilidad() ).executeUpdate();

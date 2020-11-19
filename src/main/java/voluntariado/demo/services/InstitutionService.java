@@ -34,19 +34,19 @@ public class InstitutionService
     @GetMapping( "/institution/{id}" )
     public Institution getInstitutionById( @PathVariable(value = "id") Integer id )
     {
-        return insRepo.getInstitution( id );
+        return insRepo.getInstitutionById(id);
     }
 
     @PutMapping( "/institution/update/{id}" )
     @ResponseBody
     public Institution updateInstitutionById( @RequestBody Institution institution, @PathVariable(value = "id") Integer id )
     {
-        return insRepo.updateInstitutionById( institution, id );
+        return insRepo.updateInstitutionById( id, institution );
     }
 
     @DeleteMapping( "/institution/delete/{id}" )
     public void deleteInstitution( @PathVariable(value = "id") Integer id )
     {
-        insRepo.deleteInstitution( id );
+        insRepo.deleteInstitutionById(id);
     }
 }

@@ -15,7 +15,7 @@ public class TaskRepositoryImplementation implements TaskRepository {
 
     @Override
     public Task createTask(Task task) {
-        final String sql1 = "SELECT MAX(id) FROM tarea";
+        final String sql1 = "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM tarea";
         final String sql = "INSERT INTO tarea(id,nombre,descrip,cant_vol_requeridos,cant_vol_inscritos,id_emergencia" +
                 ",finicio,ffin,id_estado) VALUES(:id,:n,:d,:car,:cai,:ide,:fi,:ff,:ie)";
         try(Connection conn =sql2o.open()){

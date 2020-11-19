@@ -75,7 +75,7 @@ public class TaskAbilityImplementation implements TaskAbilityRepository {
     public TaskAbility createTaskAbility(TaskAbility taskAbility) {
         int idMax = 0;
         try(Connection conn =sql2o.open()){
-            idMax = conn.createQuery("SELECT MAX(id) FROM tarea_habilidad").executeScalar(Integer.class)+1;
+            idMax = conn.createQuery("SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM tarea_habilidad").executeScalar(Integer.class)+1;
             conn.createQuery("INSERT INTO tarea_habilidad(id,id_emehab,id_tarea) " + "VALUES (:id,:id_emehab,:id_tarea)")
                     .addParameter("id",idMax)
                     .addParameter("id_emehab",taskAbility.getId_emehab())

@@ -30,7 +30,7 @@ public class RankingRepositoryImplementation implements RankingRepository{
     public Ranking createRanking(Ranking ranking) {
         int idMax = 0;
         try(Connection conn =sql2o.open()) {
-            idMax = conn.createQuery("SELECT MAX(id) FROM ranking").executeScalar(Integer.class)+1;
+            idMax = conn.createQuery("SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM ranking").executeScalar(Integer.class)+1;
             conn.createQuery("INSERT INTO ranking(id,id_voluntario,id_tarea,puntaje,flg_invitado,flg_participa) " + "VALUES (:id,:id_voluntario,:id_tarea,:puntaje,:flg_invitado,:flg_participa)")
                     .addParameter("id",idMax)
                     .addParameter("id_voluntario",ranking.getId_voluntario())

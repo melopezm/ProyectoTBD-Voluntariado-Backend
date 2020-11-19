@@ -16,7 +16,7 @@ public class StatusTaskRepositoryImplementation implements StatusTaskRepository 
 
     @Override
     public StatusTask createStatusTask(StatusTask statusTask) {
-        final String sql = "SELECT MAX(id) FROM estado_tarea";
+        final String sql = "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM estado_tarea";
         final String sql1 = "INSERT INTO estado_tarea(id,descrip) VALUES (:id,:descrip)";
         try(Connection conn = sql2o.open()){
             int max = conn.createQuery(sql).executeScalar(Integer.class) + 1;

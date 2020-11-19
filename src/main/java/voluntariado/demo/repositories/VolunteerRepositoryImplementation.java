@@ -7,6 +7,7 @@ import org.sql2o.Sql2o;
 import voluntariado.demo.models.Volunteer;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -78,9 +79,13 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
 
     @Override
     public Volunteer createVolunteer(Volunteer volunteer) {
+        List<Integer> list;
+        if(volunteer.getHabilidad()==null){
+            volunteer.setHabilidad(new ArrayList<>());
+        }
         int idMax = 0;
         try(Connection conn =sql2o.open()){
-            idMax = conn.createQuery("SELECT MAX(id) FROM voluntario").executeScalar(Integer.class)+1;
+            idMax = conn.createQuery("SELECT CASE WHEN MAX(id)  IS NULL THEN 0 ELSE MAX(id) END FROM voluntario").executeScalar(Integer.class)+1;
             conn.createQuery("INSERT INTO voluntario(id,rut,nombre,apellido,correo_electronico,celular,fnacimiento) " +
                     "VALUES (:id,:rut,:nombre,:ape,:co,:celular,:fnacimiento)")
                     .addParameter("id",idMax)
@@ -93,7 +98,7 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
                     .executeUpdate();
             volunteer.setId(idMax);
             for(int i=0;i<volunteer.getHabilidad().size();i++){
-                final String sql1 = "SELECT MAX(id) FROM vol_habilidad";
+                final String sql1 = "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM vol_habilidad";
                 final String sql = "INSERT INTO vol_habilidad(id,id_voluntario,id_habilidad) VALUES(:id,:idv,:idh)";
                 int maxId = conn.createQuery(sql1).executeScalar(Integer.class)+1;
                 conn.createQuery(sql)
