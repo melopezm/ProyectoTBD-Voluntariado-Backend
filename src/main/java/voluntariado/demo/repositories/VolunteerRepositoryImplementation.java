@@ -96,7 +96,7 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
                     .addParameter("celular",volunteer.getCelular())
                     .addParameter("fnacimiento",volunteer.getFnacimiento())
                     .executeUpdate();
-            volunteer.setId(idMax);
+
             for(int i=0;i<volunteer.getHabilidad().size();i++){
                 final String sql1 = "SELECT CASE WHEN MAX(id) IS NULL THEN 0 ELSE MAX(id) END FROM vol_habilidad";
                 final String sql = "INSERT INTO vol_habilidad(id,id_voluntario,id_habilidad) VALUES(:id,:idv,:idh)";
@@ -107,7 +107,9 @@ public class VolunteerRepositoryImplementation implements VolunteerRepository {
                         .addParameter("idh",volunteer.getHabilidad().get(i))
                         .executeUpdate();
             }
-            return volunteer;
+            Volunteer aux = getVolunteerById(idMax);
+            aux.setHabilidad(volunteer.getHabilidad());
+            return aux;
         }
         catch (Exception e){
             System.out.println(e.getMessage());
