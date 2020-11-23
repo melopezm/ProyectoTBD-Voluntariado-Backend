@@ -20,9 +20,9 @@ para localhost o 127.0.0.1).
 
 2) Dentro del directorio ProyectoTBD-Voluntariado-Backend/src/main/resources/db se 
 encuentran 2 archivos:
-  - Schema.sql contiene el esquema de base de datos que fue utilizado para el ejemplo que 
+  - schema.sql contiene el esquema de base de datos que fue utilizado para el ejemplo que 
 fue grabado en video.
-  - Dump.sql contiene el backup hecho directamente desde pgadmin.
+  - Voluntariado_backup_V3.backup contiene el backup hecho directamente desde pgadmin.
 ``````
 
 ## Como iniciar
